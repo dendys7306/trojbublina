@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Touch Move</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="360" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
+        const circles = [
+            { x: 100, y: 100, radius: 70, color: 'red' },
+            { x: 200, y: 200, radius: 50, color: 'green' },
+            { x: 300, y: 100, radius: 30, color: 'blue' }
+        ];
+        let selectedCircle = null;
+
+        ctx.beginPath();
+        ctx.arc(200, 200, 100, 0, 2 * Math.PI);
+        ctx.stroke();
+
+        // Add text around the circle
+        const text = "Short text";
+        ctx.font = "16px Arial";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+
+        const radius = 89;
+        const angleStep = (Math.PI * 2) / text.length;
+        const startAngle = Math.PI;
+        const endAngle = 2 * Math.PI;
+
+        for (let i = 0; i < text.length; i++) {
+            //const angle = i * angleStep;
+            const angle = startAngle + (i / text.length) * (endAngle - startAngle);
+            const x = 200 + radius * Math.cos(angle);
+            const y = 200 + radius * Math.sin(angle);
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle + Math.PI / 2);
+            ctx.fillText(text[i], 0, 0);
+            ctx.restore();
+        }
+
+        function drawCircles() {
+            //ctx.clearRect(0, 0, canvas.width, canvas.height);
+            circles.forEach(circle => {
+                ctx.beginPath();
+                ctx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI);
+                ctx.fillStyle = circle.color;
+                ctx.fill();
+                ctx.stroke();
+            });
+        }
+
+        function getTouchPos(canvas, touchEvent) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: touchEvent.touches[0].clientX - rect.left,
+                y: touchEvent.touches[0].clientY - rect.top
+            };
+        }
+
+        canvas.addEventListener('touchstart', (e) => {
+            const touchPos = getTouchPos(canvas, e);
+            selectedCircle = circles.find(circle =>
+                Math.hypot(circle.x - touchPos.x, circle.y - touchPos.y) < circle.radius
+            );
+        });
+
+        canvas.addEventListener('touchmove', (e) => {
+            if (selectedCircle) {
+                const touchPos = getTouchPos(canvas, e);
+                selectedCircle.x = touchPos.x;
+                selectedCircle.y = touchPos.y;
+                drawCircles();
+            }
+        });
+
+        canvas.addEventListener('touchend', () => {
+            selectedCircle = null;
+        });
+
+        drawCircles();
+    </script>
+</body>
+
+</html>
