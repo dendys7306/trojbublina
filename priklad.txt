@@ -1,3 +1,38 @@
 19ABD511Pravda (hranice to/ne-to)
-27ABD724Dobro (rozvoj společný)
-35ABD933Krása (individuální)
+2778A724Dobro (rozvoj společný)
+35498933Krása (individuální)
+
+
+19168511POTENCIÁL Z HORA DANÝ
+275ae723ROZHODNUTIA - VOĽBY
+35eff933ŽIVOT - OSUD
+
+
+18ABD511Pravda (hranice to/ne-to)
+2778A724Dobro (rozvoj společný)
+36498933Krása (individuální)
+44168511POTENCIÁL Z HORA DANÝ
+535ae723ROZHODNUTIA - VOĽBY
+62eff933ŽIVOT - OSUD
+
+
+
+54168511POTENCIÁL Z HORA DANÝ
+635ae723ROZHODNUTIA - VOĽBY
+72eff933ŽIVOT - OSUD
+81a59933S
+19DBA511Úplně největší kruh
+28ABD511Pravda (hranice to/ne-to)
+3778A724Dobro (rozvoj společný)
+46498933Krása (individuální)
+95dea322Pětka v prostředku
+
+
+19DBA511Úplně největší kruh
+28ABD511Pravda (hranice to/ne-to)
+3778A724Dobro (rozvoj společný)
+46498933Krása (individuální)
+54168511POTENCIÁL Z HORA DANÝ
+635ae723ROZHODNUTIA - VOĽBY
+72eff933ŽIVOT - OSUD
+81a59933S
