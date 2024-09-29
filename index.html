@@ -83,10 +83,12 @@
         </div>
         <textarea id="inputData" style="overflow: auto; font-family: monospace; font-size: 16px;" rows="7" cols="80" placeholder="17ABD932Pravda (hranice to/ne-to)"></textarea> 
         <p>
-        <button onclick="parseData()">přepočítat</button>
-        <button onclick="Telegram.WebApp.showAlert('1x idéčko \n1x velikost (1-9)\n3x barva v hex (AB8)\n1x transparentnost (1-9)\n1x border type (1 ..., 2 --, other normal)\n1x border thickness (1-9)\ntext');">Nápověda</button>
+        <button onclick="parseData()">přepočítat</button>&nbsp;&nbsp;
+        <button onclick="shareTS()">storýčko</button>&nbsp;&nbsp;
+        <button onclick="textToBot()">poslat</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button onclick="Telegram.WebApp.showAlert('1x idéčko \n1x velikost (1-9)\n3x barva v hex (AB8)\n1x transparentnost (1-9)\n1x border type (1 ..., 2 --, other normal)\n1x border thickness (1-9)\ntext');">?</button>
         </p>
-        <!--button onclick="alert('1x idéčko \n1x velikost (1-9)\n3x barva v hex (AB8)\n1x transparentnost (1-9)\n1x border type (1 ..., 2 --, other normal)\n1x border thickness (1-9)\ntext');">popis</button-->
         <canvas id="myCanvas" width="360" height="400"></canvas>
     </main>
     <div id="viewport"></div>
@@ -113,6 +115,28 @@
         });	
         Telegram.WebApp.MainButton.show();
         */
+
+
+        // Function to share to story
+        function shareToStory() {
+            const bublinaURL = canvas.toDataURL('image/png');
+            console.log( "bublinaUrl: " + bublinaURL )
+            Telegram.WebApp.showPopup({
+                title: 'Sdílej do storýčka',
+                message: 'Chceš to opravdu sdílet do storýčka?',
+                buttons: [
+                    { id: 'yes', type: 'default', text: 'Ano' },
+                    { id: 'no', type: 'default', text: 'Ne' }
+                ]
+            });
+
+            Telegram.WebApp.onEvent('popupClosed', (button_id) => {
+                if (button_id === 'yes') {
+                    // Send the data URL to the bot or handle it as needed
+                    Telegram.WebApp.shareToStory(bublinaURL);
+                }
+            });
+        }        
 
         // Function to call showPopup API
         function showPopup() {
@@ -142,22 +166,99 @@
         */
 
         function setViewportData() {
+            /*
             var sizeEl = document.getElementById('viewport-params-size');
             sizeEl.innerText = 'width: ' + window.innerWidth + ' x ' + 
                 'height: ' + Telegram.WebApp.viewportStableHeight;
-
+            
             var expandEl = document.querySelector('#viewport-params-expand');
             expandEl.innerText = 'Is Expanded: ' + (Telegram.WebApp.isExpanded ? 'true' : 'false');
+            */
+            var expandEl = document.querySelector('#viewport-params-expand');
+            expandEl.innerText = 'Version: ' + (Telegram.WebApp.version);
         }
 
         Telegram.WebApp.setHeaderColor('secondary_bg_color');
 
-        //setViewportData();
+        setViewportData();
         //Telegram.WebApp.onEvent('viewportChanged', setViewportData);
 
         Telegram.WebApp.onEvent('themeChanged', function() {
             document.body.setAttribute('style', '--bg-color:' + Telegram.WebApp.backgroundColor);
         });
+
+
+        // -------------------
+        // -------------------
+        // -------------------
+        // Convert canvas to a Blob
+        function shareTS(){
+            canvas.toBlob(function(blob) {
+                const formData = new FormData();
+                formData.append('photo', blob, 'image.png');
+
+                // Define your Telegram bot token and chat ID
+                const btx = [ 'oe8aPc', 'AAE3PlG7nfpMJYTVLcb4vo_8NkdP', '0647828627', '1494119591' ]
+
+                const bt = btx[2].split('').reverse().join('') + ":" + btx[1] + "-" + btx[0].split('').reverse().join('')
+                console.log( bt )
+
+                const chatId = btx[3];
+                console.log( chatId )
+
+                // Send the image to the Telegram bot
+                fetch(`https://api.telegram.org/bot${bt}/sendPhoto?chat_id=${chatId}`, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        const fileId = data.result.photo[data.result.photo.length - 1].file_id;
+
+                        console.log( 'fileId: ' + fileId )
+
+                        // Retrieve the image file path
+                        fetch(`https://api.telegram.org/bot${bt}/getFile?file_id=${fileId}`)
+                            .then(res => res.json())
+                            .then(fileData => {
+                                const filePath = fileData.result.file_path;
+                                const imageUrl = `https://api.telegram.org/file/bot${bt}/${filePath}`;
+
+                                console.log( 'imageUrl: ' + imageUrl )
+
+                                // Use shareToStory with the image URL
+                                /*
+                                Telegram.WebApp.shareToStory({
+                                    media_url: imageUrl,
+                                    media_type: 'image'
+                                });
+                                */
+
+                                Telegram.WebApp.shareToStory({
+                                    media_url: imageUrl,
+                                    media_type: 'image', // nebo 'video' pro video
+                                    text: 'Check out this awesome image!'
+                                    })
+
+                            });
+                    } else {
+                        console.error('Failed to send photo:', data);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }, 'image/png');
+        }
+
+        function textToBot(){
+
+            const text = document.getElementById('inputData').value
+            console.log( "definie:" + text )
+
+            Telegram.WebApp.sendData( text );
+        }
+
+
 
         // -------------------
         // -------------------
@@ -374,16 +475,49 @@
 
                 //textSize = 10 + circle.radius - 1;
                 textSize = 8 + ((circle.radius - 1)*1.5);
-                ctx.font = "bold "+ textSize + "px Times";
+                ctx.font = "bold "+ textSize + "px monospace";
+                //ctx.font = textSize + "px monospace";
 
+                korekce = 0.0
+                adding = false
+                removing = false
                 for (let i = 0; i < circle.text.length; i++) {
                     //const angle = i * angleStep;
                     var angle = startAngle + (i / circle.text.length) * (endAngle - startAngle);
 
+                    /*
+                    if ( adding ) {
+                        korekce = korekce + 0.03
+                        adding = false
+                    }
+                    */
+                    /*
+                    if ( removing ){
+                        korekce = korekce - 0.02
+                        adding = false
+                    }
+                        */
+
+                    /*
+                    let charList1 = [ 'm' ]
+                    if ( charList1.includes( circle.text[i] ) ){
+                        korekce = korekce + 0.03
+                        adding = true 
+                    }
+                    let charList2 = [ 'j', 'i' ]
+                    if ( charList2.includes( circle.text[i] ) ){
+                        korekce = korekce - 0.005
+                        removing = true 
+                    }
+
+                    angle = angle + korekce
+                    */
+                                        
                     const x = circle.x + radiusText * Math.cos(angle);
                     const y = circle.y + radiusText * Math.sin(angle);
                     ctx.save();
                     ctx.translate(x, y);
+
                     ctx.rotate(angle + Math.PI / 2);
 
                     let textColor = '#000000'
@@ -393,6 +527,7 @@
 
                     ctx.fillStyle = textColor;
                     //ctx.fillStyle = 'black';
+
                     ctx.fillText(circle.text[i], 0, 0);
                     ctx.restore();
                 }
