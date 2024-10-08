@@ -1,0 +1,54 @@
+{
+    "a": [
+        {
+            "x": 277,
+            "y": 75,
+            "selected": false,
+            "id": 1,
+            "radius": 2,
+            "color": "#345",
+            "transparent": 6,
+            "borderTyp": "7",
+            "borderThick": "8",
+            "text": "hehehehe"
+        },
+        {
+            "x": 139,
+            "y": 211,
+            "selected": false,
+            "id": 4,
+            "radius": 5,
+            "color": "#678",
+            "transparent": 9,
+            "borderTyp": "1",
+            "borderThick": "2",
+            "text": "dobro"
+        }
+    ],
+    "b": [
+        {
+            "x": 287,
+            "y": 319,
+            "selected": false,
+            "id": 1,
+            "radius": 2,
+            "color": "#aař",
+            "transparent": 6,
+            "borderTyp": "7",
+            "borderThick": "8",
+            "text": "hehehehe"
+        },
+        {
+            "x": 246,
+            "y": 117,
+            "selected": false,
+            "id": 4,
+            "radius": 5,
+            "color": "#e4a",
+            "transparent": 9,
+            "borderTyp": "1",
+            "borderThick": "2",
+            "text": "dobro"
+        }
+    ]
+}
