@@ -428,25 +428,32 @@
 
         // Function to purge all objects from Cloud Storage
         async function purgeCloudStorage() {
-            try {
-                // Retrieve the list of stored objects
-                const objects = await Telegram.WebApp.CloudStorage.list();
-
-                if (objects && objects.length) {
-                    for (const object of objects) {
-                        await Telegram.WebApp.CloudStorage.remove(object.id);
-                        console.log(`Removed object with ID: ${object.id}`);
-                    }
-                    console.log('All objects have been removed.');
+            Telegram.WebApp.CloudStorage.getKeys(function(err, keys) {
+                if (err) {
+                    Telegram.WebApp.showAlert('Error: ' + err);
                 } else {
-                    console.log('No objects found in Cloud Storage.');
+                    if (keys.length > 0) {
+
+                        Telegram.WebApp.CloudStorage.removeItems(keys, function(err, removed) {
+                            if (err) {
+                                Telegram.WebApp.showAlert('Error: ' + err);
+                            } else {
+                                console.log( 'removed ALL items' )
+                                /*
+                                if (removed) {
+                                    Telegram.WebApp.showAlert('Removed All OK.');
+                                }
+                                */
+                            }
+                        });
+
+
+                    }
                 }
-            } catch (error) {
-                console.error('An error occurred during the purge operation:', error);
-            }
+            });
         }
 
-        function saveToCloud(){
+        async function saveToCloud(){
 
             // copy to clipboard
             navigator.clipboard.writeText(JSON.stringify(allCircles))
@@ -459,26 +466,59 @@
                     //Telegram.WebApp.showAlert("Failed to copy text.");
                 });
 
-            purgeCloudStorage()
+            let keysList = []
+            console.log('BEFORE getting keys')
+            await Telegram.WebApp.CloudStorage.getKeys(function(err, keys) {
+                if (err) {
+                    Telegram.WebApp.showAlert('Error: ' + err);
+                } else {
+                    if (keys.length > 0) {
 
-            Object.keys(allCircles).forEach(key => {
-                            
-                console.log(`trying to save ... Key: ${key}, Value:`, allCircles[key]);
-                
-                const value = JSON.stringify( allCircles[key] )
-                /*
-                Telegram.WebApp.CloudStorage.setItem(key, value, function(err, saved) {
-                    if (err) {
-                        Telegram.WebApp.showAlert('Error: ' + err);
-                    } else {
-                        if (saved) {
-                            Telegram.WebApp.showAlert('Saved to Cloud OK.');
-                        }
+                        keysList = keys
                     }
-                });
-                */
-
+                }
             });
+
+            console.log('BEFORE removing keys')
+            await Telegram.WebApp.CloudStorage.removeItems(keysList, function(err, removed) {
+                if (err) {
+                    Telegram.WebApp.showAlert('Error: ' + err);
+                } else {
+                    if (removed) {
+                        console.log( 'removed ALL items' )
+
+
+                        console.log('BEFORE seting keys')
+                        //Telegram.WebApp.showAlert('Removed All OK.');
+                        count = 0
+                        Object.keys(allCircles).forEach(key => {
+                                        
+                            console.log(`trying to save ... Key: ${key}, Value:`, allCircles[key]);
+                            count++
+                            const value = JSON.stringify( allCircles[key] )
+
+                            Telegram.WebApp.CloudStorage.setItem(key, value, function(err, saved) {
+                                if (err) {
+                                    Telegram.WebApp.showAlert('Error: ' + err);
+                                } else {
+                                    /*
+                                    if (saved) {
+                                        Telegram.WebApp.showAlert('Saved to Cloud OK.');
+                                    }
+                                    */
+                                }
+                            });
+
+                        });
+
+                        Telegram.WebApp.showAlert('Saving to cloud data: ' + count );
+
+
+
+                    }
+                }
+            });
+
 
 
             /*
@@ -526,7 +566,7 @@
 
             Telegram.WebApp.CloudStorage.getKeys(function(err, keys) {
                 if (err) {
-                    DemoApp.showAlert('Error: ' + err);
+                    Telegram.WebApp.showAlert('Error: ' + err);
                 } else {
                     if (keys.length > 0) {
                         Telegram.WebApp.CloudStorage.getItems(keys, function(err, values) {
@@ -535,26 +575,33 @@
                             } else {
                                 const cloudStorageKeys = keys;
                                 const cloudStorageItems = {};
+                                allCircles = {}
                                 for (let i = 0; i < keys.length; i++) {
                                     const key = keys[i];
                                     
                                     console.log( 'key: ' + key + '  value: ' + values[key])
                                     cloudStorageItems[key] = values[key];
 
-                                    if ( key == 'trojbublina' ){
-                                        console.log( 'loading from Cloud' )
-                                        allCircles[key] = JSON.parse( values[key] )
-                                        console.log( 'loaded allcircles: ' + allCircles )
-                                    }
+                                    console.log( 'loading from Cloud' )
+                                    allCircles[key] = JSON.parse( values[key] )
+                                    console.log( 'loaded allcircles: ' + allCircles )
 
                                 }
                                 
+                                // removing buttons 
+                                const buttons = document.getElementById('slotContainer').querySelectorAll('button');
+                                buttons.forEach(button => button.remove());
+                                count = 0
                                 Object.keys(allCircles).forEach(key => {
-                                
+
+                                    count++
+
                                     console.log(`Key: ${key}, Value:`, allCircles[key]);
                                     newSlotButton( key )
 
                                 });
+
+                                Telegram.WebApp.showAlert('Loading from cloud data: ' + count );
                                 
                             }
                         });
