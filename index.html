@@ -601,9 +601,9 @@
             modifiedData = modifiedData.replace( /\n{1,}$/g, '');
 
             // Split the input data into lines
-            const lines = modifiedData.split('\n');
+            const lines = modifiedData.split('\n')
             
-            const regex = /^(.)(.)(.{3})(.)(.)(.)(.*)$/;
+            const regex = /^(.)(.)(.{3})(.)(.)(.)(.*)$/
 
             try {
 
@@ -612,7 +612,7 @@
                 // Iterate over each line and parse the data
                 lines.forEach(line => {
 
-                    const match = line.match(regex);
+                    const match = line.match(regex)
 
                     //console.log( "preparing line with id: " + parseInt(match[1]) )
 
