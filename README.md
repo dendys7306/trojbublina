@@ -41,6 +41,20 @@ There are few not really clean approaches used now so I would appreciate suggest
 developers in that field how to make it more pattern compliant. :) But you know it is always like if you want to 
 make some thing functional you will use all available ways ;-)
 
+## video user experience
+Here you can see typical using of application in telegram on mobile device. Loading schemas from json file (FILE).
+Storing to internal data (EXP) and restoring (IMP). 
+
+
+
+https://github.com/user-attachments/assets/426aea33-c139-4f2c-9879-c2493e9550e2
+
+
+
+## Examples of trojbublinas
+
+Following sample schemas. You can see more if you import trojbublina.json or trojbublina_1.json file into the app.
+
 ![IMG_20241019_085450_504](https://github.com/user-attachments/assets/b353fa19-4675-4f39-847b-5e0052e4b12c)
 ![IMG_20241019_085443_894](https://github.com/user-attachments/assets/d9c37127-f1f1-4337-99d6-46d0aa068809)
 ![IMG_20241019_085437_916](https://github.com/user-attachments/assets/ba80b471-c7e7-4231-bd59-1657f61a1f3e)
