@@ -6,7 +6,7 @@ pleasant and comfortable display of conditionality - natural.  You can catch alm
 evertihing to this structure and grasp the knowledge free and with amazing clarity.
 
 The application itselve is very simple and strightforward. It runs as miniapps in Telegram
-on the address http://t.me/ Ok, it is under a huge and rapid development. You can simply
+on the address http://t.me/trojbublina_bot/app Ok, it is under a huge and rapid development. You can simply
 create anything from the circles. Not just three circle schemas but also other useful
 collections. See video below and some results.
 
@@ -22,9 +22,9 @@ The concept itself is promising. Here is a list of main ideas of the improvement
 of development and growth. 
 - moving scenarios (acvarium, random movement, interest model, implication basics...)
 - building of multiuser space 
-- - based probably on a kind of blockchain technology not necessary at the beginning
-- - space for users, idea of canvas that will be filled with user represented by square
-- - users will assign their examples to appropriate places of the trojbublina map
+  - based probably on a kind of blockchain technology not necessary at the beginning
+  - space for users, idea of canvas that will be filled with user represented by square
+  - users will assign their examples to appropriate places of the trojbublina map
 - creating input for printing trojbublina on t-shirt (png with transparent bkg and high resolution) 
 
 
