@@ -6,7 +6,7 @@ pleasant and comfortable display of conditionality - natural.  You can catch alm
 evertihing to this structure and grasp the knowledge free and with amazing clarity.
 
 The application itselve is very simple and strightforward. It runs as miniapps in Telegram
-on the address http://t.me/trojbublina_bot/app Ok, it is under a huge and rapid development. You can simply
+on the address http://t.me/trojbublina_bot/app. Ok, it is under a huge and rapid development. You can simply
 create anything from the circles. Not just three circle schemas but also other useful
 collections. See video below and some results.
 
