@@ -16,6 +16,8 @@ and the result will be usable. It tends to catch the truth naturaly. So the schm
 constructed within bad intentions will not work at all. It is infinite space for creativity
 and as modernity says personalisation.  
 
+It is based on telegram-web-app.js and logic is written in javascript.
+
 ## ideas of improvement
 
 The concept itself is promising. Here is a list of main ideas of the improvements. Better say of branches
@@ -35,3 +37,6 @@ the boat. At the moment I would like to keep the thing as much simple as possibl
 So the one file index.tml with all stuff is ideal. But if you like to do it in another way no problem.
 You are pleased and welcome.
 The current tasks are always somehow sumarized in opened issues.
+There are few not really clean approaches used now so I would like appreciate suggestions from a more skilled 
+developers in that field how to make it more pattern compliant. :) But you know it is always like if you want to 
+make some thing functional you will use all available ways ;-)
