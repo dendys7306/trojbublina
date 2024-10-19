@@ -3,7 +3,8 @@ Authoring tool for creating trojbubliny. What is it? And what can it serve?
 Trojbublna is three circles centralized structure. Circle is the most crucial
 and natural shape. View of the circles that are entered one to another is very
 pleasant and comfortable display of conditionality - natural.  You can catch almost
-evertihing to this structure and grasp the knowledge free and with amazing clarity.
+everything by this structure and grasp the knowledge free and with amazing clarity.
+It contains wholiness by default. 
 
 The application itselve is very simple and strightforward. It runs as miniapps in Telegram
 on the address http://t.me/trojbublina_bot/app. Ok, it is under a huge and rapid development. You can simply
