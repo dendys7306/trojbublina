@@ -30,6 +30,10 @@
         canvas {
             border: 1px solid rgb(69, 69, 69);
         }
+
+        button {
+            padding: 2px;
+        }
         
         #viewport {
             position: fixed;
@@ -113,7 +117,7 @@
 <body>
     <main>
         <textarea id="inputData" style="overflow: auto; font-family: monospace; font-size: 16px;" rows="7" cols="80" placeholder="17ABD932Pravda (hranice to/ne-to)"></textarea> 
-        <p>
+        <div style="padding:3px;">
         <button onclick="parseData()">display</button>&nbsp;&nbsp;
         <button onclick="shareTS()">story</button>&nbsp;&nbsp;
         <button id="createSlot">slot</button>&nbsp;&nbsp;
@@ -122,9 +126,11 @@
         <input type="file" id="fileInput" accept=".json" style="display: none;">
         <button onclick="document.getElementById('fileInput').click()">FILE</button>&nbsp;&nbsp;
         <!--button onclick="textToBot()">poslat</button-->
-        <button onclick="Telegram.WebApp.showAlert('1x idéčko \n1x velikost (1-9)\n3x barva v hex (AB8)\n1x transparentnost (1-9)\n1x border type (1 ..., 2 --, other normal)\n1x border thickness (1-9)\ntext');">?</button>
+        <button onclick="Telegram.WebApp.showAlert('1x idéčko \n1x velikost (1-9)\n3x barva v hex (AB8)\n1x transparentnost (1-9)\n1x border type (1 ..., 2 --, other normal)\n1x border thickness (1-9)\ntext');">?</button>&nbsp;&nbsp;
         <!--br/><a href="javascript:;" onclick="return requestWriteAccess(this);">Request write access</a-->
-        </p>
+        <!--button id="downloadBtn">PNG</button-->
+        <!--a href="javascript:;" onclick="canvas.toDataURL();" download="trojbublina.png">link</a-->
+        </div>
         <canvas id="myCanvas" width="360" height="400"></canvas>
 
         <div id="slotContainer" class="slot-div"></div>
@@ -248,8 +254,12 @@
         // -------------------
         // -------------------
         // Convert canvas to a Blob
-        function shareTS(){
-            canvas.toBlob(function(blob) {
+        async function shareTS(){
+
+                const dataUrl = canvas.toDataURL('image/png');
+                const blob = await (await fetch(dataUrl)).blob();
+
+            //anvas.toBlob(function(blob) {
                 const formData = new FormData();
                 formData.append('photo', blob, 'image.png');
 
@@ -292,7 +302,9 @@
                     }
                 })
                 .catch(error => console.error('Error:', error));
-            }, 'image/png');
+
+
+            //}, 'image/png');
         }
 
         function textToBot(){
@@ -1271,6 +1283,15 @@
             }
 
         });
+
+/*
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            const link = document.createElement('a');
+            link.download = 'trojbublina.png'; // Set the name for the downloaded file
+            link.href = canvas.toDataURL('image/png'); // Convert the canvas to Data URL in PNG format
+            link.click(); // Simulate a click to trigger the download
+        });        
+*/
 
     </script>
 
