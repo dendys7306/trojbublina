@@ -630,15 +630,19 @@
 
                     getIdAsNumber( id )
 
-                    const index = circles.findIndex(circles => circles.id === id);
+                    const index = circles.findIndex(circles => circles.id.toString() === id.toString() );
 
                     // array of indexes
                     indexes.push( id ) 
+
+                    //console.log( circles )
 
                     if (index !== -1) {
 
                         circleUpdates = {
 
+                            //
+                            id: match[1],                      // 1x - id (force update to string)
                             radius: parseInt(match[2]),            // 1x - radius  
                             color: '#' + match[3].trim(),          // 3x - color in hex
                             transparent : parseInt(match[4]),      // 1x - transparent
